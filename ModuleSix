@@ -1,0 +1,45 @@
+# Jessica Clark
+
+# A dictionary for the simplified dragon text game
+# The dictionary links a room to other rooms.
+rooms = {
+    'Great Hall': {'South': 'Bedroom'},
+    'Bedroom': {'North': 'Great Hall', 'East': 'Cellar'},
+    'Cellar': {'West': 'Bedroom'}
+}
+
+# The game begins in the Great Hall
+current_room = 'Great Hall'
+
+while current_room != 'ExitRoom':  # Loop runs until player moves to ExitRoom
+    print("\nYou are in the", current_room)
+
+    # Show valid exits
+    print("You can go:", ', '.join(rooms[current_room].keys()))
+
+    # Ask for input
+    command = input("Enter a direction (e.g. 'North' or 'go North') or 'exit': ").strip()
+
+    # Normalize input
+    if command.lower() == 'exit':
+        current_room = 'ExitRoom'
+    else:
+        # Remove "go" if the player typed it
+        parts = command.split()
+        if parts[0].lower() == "go":
+            if len(parts) > 1:
+                direction = parts[1].capitalize()
+            else:
+                print("Go where?")
+                continue
+        else:
+            direction = parts[0].capitalize()
+
+        # Check if the direction is valid
+        if direction in rooms[current_room]:
+            current_room = rooms[current_room][direction]
+            print("You moved.")
+        else:
+            print("You cannot go that way.")
+
+print("\nYou escaped!")
